@@ -1,0 +1,2 @@
+main:
+	ansible-playbook trac.yml -i inventory

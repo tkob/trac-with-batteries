@@ -1,0 +1,69 @@
+---
+- hosts: all
+  sudo: yes
+  remote_user: vagrant
+
+  vars:
+    owner:             "apache"
+    group:             "apache"
+    httpd_conf:        "/etc/httpd/conf.d"
+    var_root:          "/var/trac"
+    wsgi_bin:          "{{var_root}}/cgi-bin"
+    egg_cache:         "{{var_root}}/.python-eggs"
+    trac_parent:       "{{var_root}}/projects"
+    svn_parent:        "{{var_root}}/svn"
+    git_parent:        "{{var_root}}/git"
+    httpd_conf_parent: "{{var_root}}/httpd"
+
+  tasks:
+    - yum: name=subversion
+    - yum: name=git
+    - yum: name=patch
+    - yum: name=httpd
+    - yum: name=httpd-devel
+    - yum: name=mod_wsgi
+    - yum: name=mod_dav_svn
+    - yum: name=python-pip 
+    - yum: name=subversion-python
+    - yum: name=gcc
+    - yum: name=python-devel        # required by PIL which is required by TracBlockDiag
+    - yum: name=zlib-devel          # required by PIL which is required by TracBlockDiag
+    - yum: name=libjpeg-turbo-devel # required by PIL which is required by TracBlockDiag
+    - pip: name=Babel
+    - pip: name=genshi             version=0.6
+    - pip: name=trac               version=1.0
+    - pip: name=TracBlockDiag      version=0.2.1
+    - pip: name=TracAccountManager version=0.4.4
+    - name: TracXMLRPC
+      command: sudo pip install 'svn+https://trac-hacks.org/svn/xmlrpcplugin/trunk' chdir='/home/vagrant' creates='/usr/lib/python2.7/site-packages/TracXMLRPC-1.1.5-py2.7.egg-info'
+    - pip: name=ipython
+    - pip: name=nbformat
+    - pip: name=nbconvert
+    - name: TracJupyterNotebook
+      command: sudo pip install 'svn+https://trac-hacks.org/svn/jupyternotebookplugin/1.0' chdir='/home/vagrant' creates='/usr/lib/python2.7/site-packages/TracJupyterNotebook-1.0-py2.7.egg-info'
+    - name: TracCutomFieldAdmin
+      command: sudo pip install 'svn+https://trac-hacks.org/svn/customfieldadminplugin/0.11' chdir='/home/vagrant' creates='/usr/lib/python2.7/site-packages/TracCustomFieldAdmin-0.2.12-py2.7.egg-info'
+    - name: TracWysiwygPlugin
+      command: sudo pip install 'svn+https://trac-hacks.org/svn/tracwysiwygplugin/0.12' chdir='/home/vagrant' creates='/usr/lib/python2.7/site-packages/TracWysiwyg-0.12.0.5.post0-py2.7.egg-info'
+    - file: path={{svn_parent}}        state=directory owner={{owner}} group={{group}}
+    - file: path={{git_parent}}        state=directory owner={{owner}} group={{group}}
+    - file: path={{var_root}}          state=directory owner={{owner}} group={{group}}
+    - file: path={{trac_parent}}       state=directory owner={{owner}} group={{group}}
+    - file: path={{httpd_conf_parent}} state=directory owner={{owner}} group={{group}}
+    - file: path={{wsgi_bin}}          state=directory owner={{owner}} group={{group}}
+    - file: path={{egg_cache}}         state=directory owner={{owner}} group={{group}} mode=0777
+
+    - copy:     src=svnindex.wsgi          dest={{wsgi_bin}}/svnindex.wsgi          owner={{owner}} group={{group}} mode=0755
+      notify:   restart httpd
+    - template: src=trac.wsgi              dest={{wsgi_bin}}/trac.wsgi              owner={{owner}} group={{group}} mode=0755
+      notify:   restart httpd
+    - template: src=trac.conf              dest={{httpd_conf}}/trac.conf
+      notify:   restart httpd
+    - template: src=create-trac-project.sh dest={{var_root}}/create-trac-project.sh owner={{owner}} group={{group}} mode=755
+    - template: src=delete-trac-project.sh dest={{var_root}}/delete-trac-project.sh owner={{owner}} group={{group}} mode=755
+
+    - service: name=httpd state=started enabled=yes
+ 
+  handlers:
+    - name: restart httpd
+      service: name=httpd state=restarted
