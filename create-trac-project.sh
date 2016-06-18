@@ -99,3 +99,6 @@ trac-admin {{trac_parent}}/$PROJECT config set components customfieldadmin.* ena
 
 # Wysiwyg
 trac-admin {{trac_parent}}/$PROJECT config set components tracwysiwyg.* enabled
+
+# ExcelDownload
+trac-admin {{trac_parent}}/$PROJECT config set components tracexceldownload.* enabled 

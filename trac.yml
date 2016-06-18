@@ -45,6 +45,9 @@
       command: sudo pip install 'svn+https://trac-hacks.org/svn/customfieldadminplugin/0.11' chdir='/home/vagrant' creates='/usr/lib/python2.7/site-packages/TracCustomFieldAdmin-0.2.12-py2.7.egg-info'
     - name: TracWysiwygPlugin
       command: sudo pip install 'svn+https://trac-hacks.org/svn/tracwysiwygplugin/0.12' chdir='/home/vagrant' creates='/usr/lib/python2.7/site-packages/TracWysiwyg-0.12.0.5.post0-py2.7.egg-info'
+    - name: TracExcelDownloadPlugin
+      command: sudo pip install 'svn+https://trac-hacks.org/svn/exceldownloadplugin/0.12' chdir='/home/vagrant' creates='/usr/lib/python2.7/site-packages/ExcelDownloadPlugin-0.12.0.5-py2.7.egg-info'
+
     - file: path={{svn_parent}}        state=directory owner={{owner}} group={{group}}
     - file: path={{git_parent}}        state=directory owner={{owner}} group={{group}}
     - file: path={{var_root}}          state=directory owner={{owner}} group={{group}}
