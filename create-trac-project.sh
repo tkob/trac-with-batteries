@@ -85,6 +85,9 @@ trac-admin {{trac_parent}}/$PROJECT config set account-manager password_store Ht
 trac-admin {{trac_parent}}/$PROJECT config set account-manager htdigest_realm Trac
 trac-admin {{trac_parent}}/$PROJECT config set account-manager htdigest_file {{httpd_conf_parent}}/$PROJECT/.htdigest
 
+# AutocompleteUsersPlugin
+trac-admin {{trac_parent}}/$PROJECT config set components autocompleteusers.* enabled
+
 # XML-RPC
 trac-admin {{trac_parent}}/$PROJECT config set components tracrpc.* enabled
 trac-admin {{trac_parent}}/$PROJECT permission add authenticated XML_RPC

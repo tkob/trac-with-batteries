@@ -30,10 +30,11 @@
     - yum: name=zlib-devel          # required by PIL which is required by TracBlockDiag
     - yum: name=libjpeg-turbo-devel # required by PIL which is required by TracBlockDiag
     - pip: name=Babel
-    - pip: name=genshi             version=0.6
-    - pip: name=trac               version=1.0
-    - pip: name=TracBlockDiag      version=0.2.1
-    - pip: name=TracAccountManager version=0.4.4
+    - pip: name=genshi                      version=0.6
+    - pip: name=trac                        version=1.0
+    - pip: name=TracBlockDiag               version=0.2.1
+    - pip: name=TracAccountManager          version=0.4.4
+    - pip: name=TracAutocompleteUsersPlugin version=0.4.3
     - name: TracXMLRPC
       command: sudo pip install 'svn+https://trac-hacks.org/svn/xmlrpcplugin/trunk' chdir='/home/vagrant' creates='/usr/lib/python2.7/site-packages/TracXMLRPC-1.1.5-py2.7.egg-info'
     - pip: name=ipython
