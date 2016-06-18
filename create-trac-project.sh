@@ -106,3 +106,9 @@ trac-admin {{trac_parent}}/$PROJECT config set components tracwysiwyg.* enabled
 
 # ExcelDownload
 trac-admin {{trac_parent}}/$PROJECT config set components tracexceldownload.* enabled 
+
+# ExportImportXls
+trac-admin {{trac_parent}}/$PROJECT config set components importexportxls.admin_ui.* enabled
+
+# DragDropPlugin
+trac-admin {{trac_parent}}/$PROJECT config set components tracdragdrop.* enabled
