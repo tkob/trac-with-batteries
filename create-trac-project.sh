@@ -69,6 +69,7 @@ trac-admin {{trac_parent}}/$PROJECT permission add admin TRAC_ADMIN
 
 trac-admin {{trac_parent}}/$PROJECT config set components tracopt.versioncontrol.git.* enabled
 trac-admin {{trac_parent}}/$PROJECT config set components tracopt.ticket.commit_updater.* enabled
+trac-admin {{trac_parent}}/$PROJECT config set components tracopt.ticket.clone.* enabled
 
 # Subversion
 trac-admin {{trac_parent}}/$PROJECT config set components tracopt.versioncontrol.svn.* enabled
