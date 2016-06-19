@@ -13,6 +13,35 @@ mkdir -p {{git_parent}}/$PROJECT
 (cd {{git_parent}}/$PROJECT; git init --bare --shared)
 (cd {{git_parent}}/$PROJECT; git update-server-info)
 
+cat <<EOF > {{git_parent}}/$PROJECT/hooks/post-receive
+#!/usr/bin/env python
+import sys
+from subprocess import Popen, PIPE, call
+
+BRANCHES = ['master']
+REPO_NAME = '(default)'
+
+def call_git(command, args):
+    return Popen(['/usr/bin/git', command] + args, stdout=PIPE).communicate()[0]
+
+def handle_ref(old, new, ref):
+    # If something else than the master branch (or whatever is contained by the
+    # constant BRANCHES) was pushed, skip this ref.
+    if not ref.startswith('refs/heads/') or ref[11:] not in BRANCHES:
+        return
+
+    # Get the list of hashs for commits in the changeset.
+    args = (old == '0' * 40) and [new] or [new, '^' + old]
+    pending_commits = call_git('rev-list', args).splitlines()[::-1]
+
+    call(["trac-admin", '{{trac_parent}}/$PROJECT', "changeset", "added", REPO_NAME] + pending_commits)
+
+if __name__ == '__main__':
+    for line in sys.stdin:
+        handle_ref(*line.split())
+EOF
+chmod 755 {{git_parent}}/$PROJECT/hooks/post-receive
+
 svnadmin create {{svn_parent}}/$PROJECT
 svn mkdir file:///{{svn_parent}}/$PROJECT/trunk file:///{{svn_parent}}/$PROJECT/tags file:///{{svn_parent}}/$PROJECT/branches -m "Initial commit"
 cat <<EOF > {{httpd_conf_parent}}/$PROJECT.conf
