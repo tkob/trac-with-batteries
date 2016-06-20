@@ -141,3 +141,6 @@ trac-admin {{trac_parent}}/$PROJECT config set components importexportxls.admin_
 
 # DragDropPlugin
 trac-admin {{trac_parent}}/$PROJECT config set components tracdragdrop.* enabled
+
+# CiteCode
+trac-admin {{trac_parent}}/$PROJECT config set components traccitecode.citecode.* enabled
