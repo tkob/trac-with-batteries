@@ -36,24 +36,24 @@
     - pip: name=TracAccountManager          version=0.4.4
     - pip: name=TracAutocompleteUsersPlugin version=0.4.3
     - name: TracXMLRPC
-      command: sudo pip install 'svn+https://trac-hacks.org/svn/xmlrpcplugin/trunk' chdir='/home/vagrant' creates='/usr/lib/python2.7/site-packages/TracXMLRPC-1.1.5-py2.7.egg-info'
+      command: sudo pip install 'svn+https://trac-hacks.org/svn/xmlrpcplugin/trunk' chdir='/home/vagrant' creates='/usr/lib/python2.7/site-packages/tracrpc'
     - pip: name=ipython
     - pip: name=nbformat
     - pip: name=nbconvert
     - name: TracJupyterNotebook
-      command: sudo pip install 'svn+https://trac-hacks.org/svn/jupyternotebookplugin/1.0' chdir='/home/vagrant' creates='/usr/lib/python2.7/site-packages/TracJupyterNotebook-1.0-py2.7.egg-info'
+      command: sudo pip install 'svn+https://trac-hacks.org/svn/jupyternotebookplugin/1.0' chdir='/home/vagrant' creates='/usr/lib/python2.7/site-packages/tracjupyternotebook'
     - name: TracCutomFieldAdmin
-      command: sudo pip install 'svn+https://trac-hacks.org/svn/customfieldadminplugin/0.11' chdir='/home/vagrant' creates='/usr/lib/python2.7/site-packages/TracCustomFieldAdmin-0.2.12-py2.7.egg-info'
+      command: sudo pip install 'svn+https://trac-hacks.org/svn/customfieldadminplugin/0.11' chdir='/home/vagrant' creates='/usr/lib/python2.7/site-packages/customfieldadmin'
     - name: TracWysiwygPlugin
-      command: sudo pip install 'svn+https://trac-hacks.org/svn/tracwysiwygplugin/0.12' chdir='/home/vagrant' creates='/usr/lib/python2.7/site-packages/TracWysiwyg-0.12.0.5.post0-py2.7.egg-info'
+      command: sudo pip install 'svn+https://trac-hacks.org/svn/tracwysiwygplugin/0.12' chdir='/home/vagrant' creates='/usr/lib/python2.7/site-packages/tracwysiwyg'
     - name: TracExcelDownloadPlugin
-      command: sudo pip install 'svn+https://trac-hacks.org/svn/exceldownloadplugin/0.12' chdir='/home/vagrant' creates='/usr/lib/python2.7/site-packages/ExcelDownloadPlugin-0.12.0.5-py2.7.egg-info'
+      command: sudo pip install 'svn+https://trac-hacks.org/svn/exceldownloadplugin/0.12' chdir='/home/vagrant' creates='/usr/lib/python2.7/site-packages/tracexceldownload'
     - name: TracExportImportXlsPlugin
-      command: sudo pip install 'svn+https://trac-hacks.org/svn/exportimportxlsplugin/0.12' chdir='/home/vagrant'
+      command: sudo pip install 'svn+https://trac-hacks.org/svn/exportimportxlsplugin/0.12' chdir='/home/vagrant' creates='/usr/lib/python2.7/site-packages/importexportxls'
     - name: TracDragDropPlugin
-      command: sudo pip install 'svn+https://trac-hacks.org/svn/tracdragdropplugin/0.12' chdir='/home/vagrant'
+      command: sudo pip install 'svn+https://trac-hacks.org/svn/tracdragdropplugin/0.12' chdir='/home/vagrant' creates='/usr/lib/python2.7/site-packages/tracdragdrop'
     - name: TracCiteCode
-      command: sudo pip install 'svn+https://trac-hacks.org/svn/citecodemacro/1.0' chdir='/home/vagrant'
+      command: sudo pip install 'svn+https://trac-hacks.org/svn/citecodemacro/1.0' chdir='/home/vagrant' creates='/usr/lib/python2.7/site-packages/traccitecode'
 
     - file: path={{svn_parent}}        state=directory owner={{owner}} group={{group}}
     - file: path={{git_parent}}        state=directory owner={{owner}} group={{group}}
