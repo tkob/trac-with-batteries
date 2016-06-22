@@ -37,9 +37,6 @@
     - pip: name=TracAutocompleteUsersPlugin version=0.4.3
     - name: TracXMLRPC
       command: sudo pip install 'svn+https://trac-hacks.org/svn/xmlrpcplugin/trunk' chdir='/home/vagrant' creates='/usr/lib/python2.7/site-packages/tracrpc'
-    - pip: name=ipython
-    - pip: name=nbformat
-    - pip: name=nbconvert
     - name: TracJupyterNotebook
       command: sudo pip install 'svn+https://trac-hacks.org/svn/jupyternotebookplugin/1.0' chdir='/home/vagrant' creates='/usr/lib/python2.7/site-packages/tracjupyternotebook'
     - name: TracCutomFieldAdmin
