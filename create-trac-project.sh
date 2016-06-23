@@ -123,6 +123,7 @@ trac-admin {{trac_parent}}/$PROJECT permission add authenticated XML_RPC
 
 # JupyterNotebook
 trac-admin {{trac_parent}}/$PROJECT config set components tracjupyternotebook.* enabled
+trac-admin {{trac_parent}}/$PROJECT config set mimeviewer mime_map "`trac-admin {{trac_parent}}/$PROJECT config get mimeviewer mime_map`, application/x-ipynb+json:ipynb"
 
 # BlockDiag
 trac-admin {{trac_parent}}/$PROJECT config set components tracblockdiag.plugin.* enabled
