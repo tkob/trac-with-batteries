@@ -145,3 +145,9 @@ trac-admin {{trac_parent}}/$PROJECT config set components tracdragdrop.* enabled
 
 # CiteCode
 trac-admin {{trac_parent}}/$PROJECT config set components traccitecode.citecode.* enabled
+
+# ReadmeRenderer
+trac-admin {{trac_parent}}/$PROJECT config set components readme_renderer.* enabled
+trac-admin {{trac_parent}}/$PROJECT config set mimeviewer mime_map "`trac-admin {{trac_parent}}/$PROJECT config get mimeviewer mime_map`, text/x-trac-wiki:wiki"
+trac-admin {{trac_parent}}/$PROJECT config set mimeviewer mime_map "`trac-admin {{trac_parent}}/$PROJECT config get mimeviewer mime_map`, text/x-markdown:md"
+trac-admin {{trac_parent}}/$PROJECT config set mimeviewer mime_map_patterns "`trac-admin {{trac_parent}}/$PROJECT config get mimeviewer mime_map_patterns`, text/plain:README:INSTALL:COPYING"
