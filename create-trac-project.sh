@@ -151,3 +151,6 @@ trac-admin {{trac_parent}}/$PROJECT config set components readme_renderer.* enab
 trac-admin {{trac_parent}}/$PROJECT config set mimeviewer mime_map "`trac-admin {{trac_parent}}/$PROJECT config get mimeviewer mime_map`, text/x-trac-wiki:wiki"
 trac-admin {{trac_parent}}/$PROJECT config set mimeviewer mime_map "`trac-admin {{trac_parent}}/$PROJECT config get mimeviewer mime_map`, text/x-markdown:md"
 trac-admin {{trac_parent}}/$PROJECT config set mimeviewer mime_map_patterns "`trac-admin {{trac_parent}}/$PROJECT config get mimeviewer mime_map_patterns`, text/plain:README:INSTALL:COPYING"
+
+# LogViewer
+trac-admin {{trac_parent}}/$PROJECT config set components logviewer.* enabled
