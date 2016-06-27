@@ -105,7 +105,7 @@ fi
 mkdir -p {{trac_parent}}/$PROJECT
 mkdir -p {{httpd_conf_parent}}/$PROJECT
 
-trac-admin {{trac_parent}}/$PROJECT initenv "$PROJECT" 'sqlite:db/trac.db'
+trac-admin {{trac_parent}}/$PROJECT initenv "My Project" 'sqlite:db/trac.db'
 
 echo 'admin:Trac:f208be21a9d1fc8328dac1ef375bf4a9' > {{httpd_conf_parent}}/$PROJECT/.htdigest
 
