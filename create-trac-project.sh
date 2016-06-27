@@ -6,14 +6,26 @@ die ()
   exit 1
 }
 
+repo_type=svn
+while getopts r: opt; do
+  case $opt in #(
+  r) :
+    repo_type=$OPTARG ;; #(
+  *) :
+     ;;
+esac
+done
+shift `expr $OPTIND - 1`
+
 test -z $1 && die "no project name specified"
 PROJECT=$1
 
-mkdir -p {{git_parent}}/$PROJECT
-(cd {{git_parent}}/$PROJECT; git init --bare --shared)
-(cd {{git_parent}}/$PROJECT; git update-server-info)
+if test "X$repo_type" = "Xgit"; then
+  mkdir -p {{git_parent}}/$PROJECT
+  (cd {{git_parent}}/$PROJECT; git init --bare --shared)
+  (cd {{git_parent}}/$PROJECT; git update-server-info)
 
-cat <<EOF > {{git_parent}}/$PROJECT/hooks/post-receive
+  cat <<EOF > {{git_parent}}/$PROJECT/hooks/post-receive
 #!/usr/bin/env python
 import sys
 from subprocess import Popen, PIPE, call
@@ -40,11 +52,13 @@ if __name__ == '__main__':
     for line in sys.stdin:
         handle_ref(*line.split())
 EOF
-chmod 755 {{git_parent}}/$PROJECT/hooks/post-receive
+  chmod 755 {{git_parent}}/$PROJECT/hooks/post-receive
+fi
 
-svnadmin create {{svn_parent}}/$PROJECT
-svn mkdir file:///{{svn_parent}}/$PROJECT/trunk file:///{{svn_parent}}/$PROJECT/tags file:///{{svn_parent}}/$PROJECT/branches -m "Initial commit"
-cat <<EOF > {{httpd_conf_parent}}/$PROJECT.conf
+if test "X$repo_type" = "Xsvn"; then
+  svnadmin create {{svn_parent}}/$PROJECT
+  svn mkdir file:///{{svn_parent}}/$PROJECT/trunk file:///{{svn_parent}}/$PROJECT/tags file:///{{svn_parent}}/$PROJECT/branches -m "Initial commit"
+  cat <<EOF > {{httpd_conf_parent}}/$PROJECT.conf
 <Location /svn/$PROJECT>
   DAV svn
   SVNPath {{svn_parent}}/$PROJECT
@@ -78,34 +92,40 @@ cat <<EOF > {{svn_parent}}/$PROJECT/hooks/post-commit
 REPOS="\$1"; REV="\$2"
 /usr/bin/trac-admin {{trac_parent}}/$PROJECT changeset added "\$REPOS" "\$REV"
 EOF
-chmod 755 {{svn_parent}}/$PROJECT/hooks/post-commit
+  chmod 755 {{svn_parent}}/$PROJECT/hooks/post-commit
 
-cat <<EOF > {{svn_parent}}/$PROJECT/hooks/post-revprop-change
+  cat <<EOF > {{svn_parent}}/$PROJECT/hooks/post-revprop-change
 #!/bin/sh
 REPOS="\$1"; REV="\$2"
 /usr/bin/trac-admin {{trac_parent}}/$PROJECT changeset modified "\$REPOS" "\$REV"
 EOF
-chmod 755 {{svn_parent}}/$PROJECT/hooks/post-revprop-change
+  chmod 755 {{svn_parent}}/$PROJECT/hooks/post-revprop-change
+fi
 
 mkdir -p {{trac_parent}}/$PROJECT
 mkdir -p {{httpd_conf_parent}}/$PROJECT
 
-trac-admin {{trac_parent}}/$PROJECT initenv "My Project" 'sqlite:db/trac.db'
+trac-admin {{trac_parent}}/$PROJECT initenv "$PROJECT" 'sqlite:db/trac.db'
 
 echo 'admin:Trac:f208be21a9d1fc8328dac1ef375bf4a9' > {{httpd_conf_parent}}/$PROJECT/.htdigest
 
 trac-admin {{trac_parent}}/$PROJECT permission add admin TRAC_ADMIN
 
-trac-admin {{trac_parent}}/$PROJECT config set components tracopt.versioncontrol.git.* enabled
-trac-admin {{trac_parent}}/$PROJECT config set components tracopt.ticket.commit_updater.* enabled
-trac-admin {{trac_parent}}/$PROJECT config set components tracopt.ticket.clone.* enabled
+# Git
+if test "X$repo_type" = "Xgit"; then
+  trac-admin {{trac_parent}}/$PROJECT config set components tracopt.versioncontrol.git.* enabled
+  trac-admin {{trac_parent}}/$PROJECT config set components tracopt.ticket.commit_updater.* enabled
+  trac-admin {{trac_parent}}/$PROJECT config set components tracopt.ticket.clone.* enabled
+fi
 
 # Subversion
-trac-admin {{trac_parent}}/$PROJECT config set components tracopt.versioncontrol.svn.* enabled
-trac-admin {{trac_parent}}/$PROJECT config set trac repository_type svn
-trac-admin {{trac_parent}}/$PROJECT config set trac repository_dir {{svn_parent}}/$PROJECT
-trac-admin {{trac_parent}}/$PROJECT config set trac repository_sync_per_request ""
-trac-admin {{trac_parent}}/$PROJECT repository resync ""
+if test "X$repo_type" = "Xsvn"; then
+  trac-admin {{trac_parent}}/$PROJECT config set components tracopt.versioncontrol.svn.* enabled
+  trac-admin {{trac_parent}}/$PROJECT config set trac repository_type svn
+  trac-admin {{trac_parent}}/$PROJECT config set trac repository_dir {{svn_parent}}/$PROJECT
+  trac-admin {{trac_parent}}/$PROJECT config set trac repository_sync_per_request ""
+  trac-admin {{trac_parent}}/$PROJECT repository resync ""
+fi
 
 # AccountManager
 trac-admin {{trac_parent}}/$PROJECT config set components acct_mgr.* enabled
