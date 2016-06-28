@@ -116,14 +116,14 @@ if test "X$repo_type" = "Xgit"; then
   trac-admin {{trac_parent}}/$PROJECT config set components tracopt.versioncontrol.git.* enabled
   trac-admin {{trac_parent}}/$PROJECT config set components tracopt.ticket.commit_updater.* enabled
   trac-admin {{trac_parent}}/$PROJECT config set components tracopt.ticket.clone.* enabled
+  trac-admin {{trac_parent}}/$PROJECT repository add "" {{git_parent}}/$PROJECT git
+  trac-admin {{trac_parent}}/$PROJECT repository resync ""
 fi
 
 # Subversion
 if test "X$repo_type" = "Xsvn"; then
   trac-admin {{trac_parent}}/$PROJECT config set components tracopt.versioncontrol.svn.* enabled
-  trac-admin {{trac_parent}}/$PROJECT config set trac repository_type svn
-  trac-admin {{trac_parent}}/$PROJECT config set trac repository_dir {{svn_parent}}/$PROJECT
-  trac-admin {{trac_parent}}/$PROJECT config set trac repository_sync_per_request ""
+  trac-admin {{trac_parent}}/$PROJECT repository add "" {{svn_parent}}/$PROJECT svn
   trac-admin {{trac_parent}}/$PROJECT repository resync ""
 fi
 
