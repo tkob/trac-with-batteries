@@ -57,7 +57,12 @@ fi
 
 if test "X$repo_type" = "Xsvn"; then
   svnadmin create {{svn_parent}}/$PROJECT
-  svn mkdir file:///{{svn_parent}}/$PROJECT/trunk file:///{{svn_parent}}/$PROJECT/tags file:///{{svn_parent}}/$PROJECT/branches -m "Initial commit"
+  svn mkdir \
+          file:///{{svn_parent}}/$PROJECT/trunk \
+          file:///{{svn_parent}}/$PROJECT/tags \
+          file:///{{svn_parent}}/$PROJECT/branches \
+          -m "Initial commit" \
+          --username admin
   cat <<EOF > {{httpd_conf_parent}}/$PROJECT.conf
 <Location /svn/$PROJECT>
   DAV svn
