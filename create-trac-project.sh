@@ -111,11 +111,12 @@ echo 'admin:Trac:f208be21a9d1fc8328dac1ef375bf4a9' > {{httpd_conf_parent}}/$PROJ
 
 trac-admin {{trac_parent}}/$PROJECT permission add admin TRAC_ADMIN
 
+trac-admin {{trac_parent}}/$PROJECT config set components tracopt.ticket.commit_updater.* enabled
+trac-admin {{trac_parent}}/$PROJECT config set components tracopt.ticket.clone.* enabled
+
 # Git
 if test "X$repo_type" = "Xgit"; then
   trac-admin {{trac_parent}}/$PROJECT config set components tracopt.versioncontrol.git.* enabled
-  trac-admin {{trac_parent}}/$PROJECT config set components tracopt.ticket.commit_updater.* enabled
-  trac-admin {{trac_parent}}/$PROJECT config set components tracopt.ticket.clone.* enabled
   trac-admin {{trac_parent}}/$PROJECT repository add "" {{git_parent}}/$PROJECT git
   trac-admin {{trac_parent}}/$PROJECT repository resync ""
 fi
