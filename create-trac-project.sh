@@ -112,6 +112,11 @@ mkdir -p {{httpd_conf_parent}}/$PROJECT
 
 trac-admin {{trac_parent}}/$PROJECT initenv "$PROJECT" 'sqlite:db/trac.db'
 
+lang=`python -c 'import locale; print(locale.getdefaultlocale()[0])'`
+if test -d {{var_root}}/wiki/$lang/default-pages; then
+  trac-admin {{trac_parent}}/$PROJECT wiki replace {{var_root}}/wiki/$lang/default-pages
+fi
+
 echo 'admin:Trac:f208be21a9d1fc8328dac1ef375bf4a9' > {{httpd_conf_parent}}/$PROJECT/.htdigest
 
 trac-admin {{trac_parent}}/$PROJECT permission add admin TRAC_ADMIN
