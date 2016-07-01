@@ -121,6 +121,15 @@ echo 'admin:Trac:f208be21a9d1fc8328dac1ef375bf4a9' > {{httpd_conf_parent}}/$PROJ
 
 trac-admin {{trac_parent}}/$PROJECT permission add admin TRAC_ADMIN
 
+config_append ()
+{
+  section=$1
+  key=$2
+  value=$3
+  old="`trac-admin {{trac_parent}}/$PROJECT config get $section $key`"
+  trac-admin {{trac_parent}}/$PROJECT config set $section $key "$old, $value"
+}
+
 trac-admin {{trac_parent}}/$PROJECT config set components tracopt.ticket.commit_updater.* enabled
 trac-admin {{trac_parent}}/$PROJECT config set components tracopt.ticket.clone.* enabled
 
@@ -154,7 +163,7 @@ trac-admin {{trac_parent}}/$PROJECT permission add authenticated XML_RPC
 
 # JupyterNotebook
 trac-admin {{trac_parent}}/$PROJECT config set components tracjupyternotebook.* enabled
-trac-admin {{trac_parent}}/$PROJECT config set mimeviewer mime_map "`trac-admin {{trac_parent}}/$PROJECT config get mimeviewer mime_map`, application/x-ipynb+json:ipynb"
+config_append mimeviewer mime_map "application/x-ipynb+json:ipynb"
 
 # BlockDiag
 trac-admin {{trac_parent}}/$PROJECT config set components tracblockdiag.plugin.* enabled
@@ -179,9 +188,9 @@ trac-admin {{trac_parent}}/$PROJECT config set components traccitecode.citecode.
 
 # ReadmeRenderer
 trac-admin {{trac_parent}}/$PROJECT config set components readme_renderer.* enabled
-trac-admin {{trac_parent}}/$PROJECT config set mimeviewer mime_map "`trac-admin {{trac_parent}}/$PROJECT config get mimeviewer mime_map`, text/x-trac-wiki:wiki"
-trac-admin {{trac_parent}}/$PROJECT config set mimeviewer mime_map "`trac-admin {{trac_parent}}/$PROJECT config get mimeviewer mime_map`, text/x-markdown:md"
-trac-admin {{trac_parent}}/$PROJECT config set mimeviewer mime_map_patterns "`trac-admin {{trac_parent}}/$PROJECT config get mimeviewer mime_map_patterns`, text/plain:README:INSTALL:COPYING"
+config_append mimeviewer mime_map "text/x-trac-wiki:wiki"
+config_append mimeviewer mime_map "text/x-markdown:md"
+config_append mimeviewer mime_map_patterns "text/plain:README:INSTALL:COPYING"
 
 # LogViewer
 trac-admin {{trac_parent}}/$PROJECT config set components logviewer.* enabled
