@@ -194,3 +194,6 @@ config_append mimeviewer mime_map_patterns "text/plain:README:INSTALL:COPYING"
 
 # LogViewer
 trac-admin {{trac_parent}}/$PROJECT config set components logviewer.* enabled
+
+# IniAdminPanel
+trac-admin {{trac_parent}}/$PROJECT config set components inieditorpanel.* enabled

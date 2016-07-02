@@ -55,6 +55,8 @@
       command: sudo pip install 'git+https://github.com/Southen/trac-readme-plugin.git' chdir='/home/vagrant' creates='/usr/lib/python2.7/site-packages/readme_renderer'
     - name: LogViewerPlugin
       command: sudo pip install 'svn+https://trac-hacks.org/svn/logviewerplugin/trunk' chdir='/home/vagrant' creates='/usr/lib/python2.7/site-packages/logviewer'
+    - name: TracIniAdminPanelPlugin
+      command: sudo pip install 'svn+https://trac-hacks.org/svn/traciniadminpanelplugin/trunk' chdir='/home/vagrant' creates='/usr/lib/python2.7/site-packages/inieditorpanel'
 
     - file: path={{svn_parent}}        state=directory owner={{owner}} group={{group}}
     - file: path={{git_parent}}        state=directory owner={{owner}} group={{group}}
