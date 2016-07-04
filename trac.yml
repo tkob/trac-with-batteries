@@ -57,6 +57,8 @@
       command: sudo pip install 'svn+https://trac-hacks.org/svn/logviewerplugin/trunk' creates='/usr/lib/python2.7/site-packages/logviewer'
     - name: TracIniAdminPanelPlugin
       command: sudo pip install 'svn+https://trac-hacks.org/svn/traciniadminpanelplugin/trunk' creates='/usr/lib/python2.7/site-packages/inieditorpanel'
+    - name: TracMermaid
+      command: sudo pip install 'svn+https://trac-hacks.org/svn/mermaidmacro/1.0' creates='/usr/lib/python2.7/site-packages/tracmermaid'
 
     - file: path={{svn_parent}}        state=directory owner={{owner}} group={{group}}
     - file: path={{git_parent}}        state=directory owner={{owner}} group={{group}}

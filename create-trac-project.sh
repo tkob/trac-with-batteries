@@ -197,3 +197,6 @@ trac-admin {{trac_parent}}/$PROJECT config set components logviewer.* enabled
 
 # IniAdminPanel
 trac-admin {{trac_parent}}/$PROJECT config set components inieditorpanel.* enabled
+
+# Mermaid
+trac-admin {{trac_parent}}/$PROJECT config set components tracmermaid.mermaid.* enabled
