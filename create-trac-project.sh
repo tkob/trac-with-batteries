@@ -6,9 +6,12 @@ die ()
   exit 1
 }
 
+lang=`python -c 'import locale; print(locale.getdefaultlocale()[0])'`
 repo_type=svn
-while getopts r: opt; do
+while getopts l:r: opt; do
   case $opt in #(
+  l) :
+    lang=$OPTARG ;; #(
   r) :
     repo_type=$OPTARG ;; #(
   *) :
@@ -112,7 +115,6 @@ mkdir -p {{httpd_conf_parent}}/$PROJECT
 
 trac-admin {{trac_parent}}/$PROJECT initenv "$PROJECT" 'sqlite:db/trac.db'
 
-lang=`python -c 'import locale; print(locale.getdefaultlocale()[0])'`
 if test -d {{var_root}}/wiki/$lang/default-pages; then
   trac-admin {{trac_parent}}/$PROJECT wiki replace {{var_root}}/wiki/$lang/default-pages
 fi
