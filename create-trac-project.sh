@@ -202,3 +202,7 @@ trac-admin {{trac_parent}}/$PROJECT config set components inieditorpanel.* enabl
 
 # Mermaid
 trac-admin {{trac_parent}}/$PROJECT config set components tracmermaid.mermaid.* enabled
+
+# SvnMultiUrlsPlugin
+trac-admin {{trac_parent}}/$PROJECT config set components svnmultiurls.* enabled
+trac-admin {{trac_parent}}/$PROJECT config set svnmultiurls repository_root_url /svn/$PROJECT
