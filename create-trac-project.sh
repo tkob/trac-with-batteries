@@ -204,5 +204,7 @@ trac-admin {{trac_parent}}/$PROJECT config set components inieditorpanel.* enabl
 trac-admin {{trac_parent}}/$PROJECT config set components tracmermaid.mermaid.* enabled
 
 # SvnMultiUrlsPlugin
-trac-admin {{trac_parent}}/$PROJECT config set components svnmultiurls.* enabled
-trac-admin {{trac_parent}}/$PROJECT config set svnmultiurls repository_root_url /svn/$PROJECT
+if test "X$repo_type" = "Xsvn"; then
+  trac-admin {{trac_parent}}/$PROJECT config set components svnmultiurls.* enabled
+  trac-admin {{trac_parent}}/$PROJECT config set svnmultiurls repository_root_url /svn/$PROJECT
+fi
