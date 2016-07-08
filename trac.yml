@@ -61,6 +61,8 @@
       command: sudo pip install 'svn+https://trac-hacks.org/svn/mermaidmacro/1.0' creates='/usr/lib/python2.7/site-packages/tracmermaid'
     - name: SvnMultiUrlsPlugin
       command: sudo pip install 'svn+https://trac-hacks.org/svn/svnmultiurlsplugin/0.12' creates='/usr/lib/python2.7/site-packages/svnmultiurls'
+    - name: TracPerlPodPlugin
+      command: sudo pip install 'svn+https://trac-hacks.org/svn/perlpodplugin/1.0' creates='/usr/lib/python2.7/site-packages/tracperlpod'
 
     - file: path={{svn_parent}}        state=directory owner={{owner}} group={{group}}
     - file: path={{git_parent}}        state=directory owner={{owner}} group={{group}}

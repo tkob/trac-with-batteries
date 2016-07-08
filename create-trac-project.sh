@@ -208,3 +208,6 @@ if test "X$repo_type" = "Xsvn"; then
   trac-admin {{trac_parent}}/$PROJECT config set components svnmultiurls.* enabled
   trac-admin {{trac_parent}}/$PROJECT config set svnmultiurls repository_root_url /svn/$PROJECT
 fi
+
+# PerlPodPlugin
+trac-admin {{trac_parent}}/$PROJECT config set components tracperlpod.* enabled
