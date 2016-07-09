@@ -211,3 +211,6 @@ fi
 
 # PerlPodPlugin
 trac-admin {{trac_parent}}/$PROJECT config set components tracperlpod.* enabled
+
+# SubcomponentsPlugin
+trac-admin {{trac_parent}}/$PROJECT config set components subcomponents.* enabled
