@@ -65,6 +65,8 @@
       command: sudo pip install 'svn+https://trac-hacks.org/svn/perlpodplugin/1.0' creates='/usr/lib/python2.7/site-packages/tracperlpod'
     - name: TracSubcomponentsPlugin
       command: sudo pip install 'svn+https://trac-hacks.org/svn/subcomponentsplugin/trunk' creates='/usr/lib/python2.7/site-packages/subcomponents'
+    - name: pandoc
+      script: install-pandoc.sh creates='/usr/local/bin/pandoc'
 
     - file: path={{svn_parent}}        state=directory owner={{owner}} group={{group}}
     - file: path={{git_parent}}        state=directory owner={{owner}} group={{group}}
