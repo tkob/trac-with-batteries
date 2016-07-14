@@ -29,6 +29,7 @@
     - yum: name=python-devel        # required by PIL which is required by TracBlockDiag
     - yum: name=zlib-devel          # required by PIL which is required by TracBlockDiag
     - yum: name=libjpeg-turbo-devel # required by PIL which is required by TracBlockDiag
+    - yum: name=rubygem-asciidoctor
     - pip: name=Babel
     - pip: name=genshi                      version=0.6
     - pip: name=trac                        version=1.0
@@ -65,6 +66,9 @@
       command: sudo pip install 'svn+https://trac-hacks.org/svn/perlpodplugin/1.0' creates='/usr/lib/python2.7/site-packages/tracperlpod'
     - name: TracSubcomponentsPlugin
       command: sudo pip install 'svn+https://trac-hacks.org/svn/subcomponentsplugin/trunk' creates='/usr/lib/python2.7/site-packages/subcomponents'
+    - name: TracAsciidoctorPlugin
+      command: sudo pip install 'svn+https://trac-hacks.org/svn/tracasciidoctorplugin/1.0' creates='/usr/lib/python2.7/site-packages/tracasciidoctor'
+
     - name: pandoc
       script: install-pandoc.sh creates='/usr/local/bin/pandoc'
 

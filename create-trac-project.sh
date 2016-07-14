@@ -214,3 +214,7 @@ trac-admin {{trac_parent}}/$PROJECT config set components tracperlpod.* enabled
 
 # SubcomponentsPlugin
 trac-admin {{trac_parent}}/$PROJECT config set components subcomponents.* enabled
+
+# AsciidoctorPlugin
+trac-admin {{trac_parent}}/$PROJECT config set components tracasciidoctor.* enabled
+config_append mimeviewer mime_map "text/asciidoc:adoc:asc:asciidoc"
