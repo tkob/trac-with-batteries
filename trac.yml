@@ -68,7 +68,8 @@
       command: sudo pip install 'svn+https://trac-hacks.org/svn/subcomponentsplugin/trunk' creates='/usr/lib/python2.7/site-packages/subcomponents'
     - name: TracAsciidoctorPlugin
       command: sudo pip install 'svn+https://trac-hacks.org/svn/tracasciidoctorplugin/1.0' creates='/usr/lib/python2.7/site-packages/tracasciidoctor'
-
+    - name: TracTicketTemplatePlugin
+      command: sudo pip install 'svn+https://trac-hacks.org/svn/tractickettemplateplugin/1.0' creates='/usr/lib/python2.7/site-packages/tickettemplate'
     - name: pandoc
       script: install-pandoc.sh creates='/usr/local/bin/pandoc'
 
