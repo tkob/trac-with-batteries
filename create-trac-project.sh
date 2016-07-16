@@ -224,4 +224,7 @@ trac-admin {{trac_parent}}/$PROJECT config set components tickettemplate.* enabl
 trac-admin {{trac_parent}}/$PROJECT config set tickettemplate field_list "summary, description, reporter, owner, priority, cc, milestone, component, version, type"
 trac-admin {{trac_parent}}/$PROJECT config set tickettemplate enable_custom true
 
+# TracWikiGanttChartPlugin
+trac-admin {{trac_parent}}/$PROJECT config set components wikiganttchart.* enabled
+
 trac-admin {{trac_parent}}/$PROJECT upgrade
