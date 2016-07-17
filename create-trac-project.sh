@@ -211,6 +211,7 @@ fi
 
 # PerlPodPlugin
 trac-admin {{trac_parent}}/$PROJECT config set components tracperlpod.* enabled
+config_append mimeviewer mime_map "application/x-perlpod:pod"
 
 # SubcomponentsPlugin
 trac-admin {{trac_parent}}/$PROJECT config set components subcomponents.* enabled
