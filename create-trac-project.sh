@@ -228,4 +228,8 @@ trac-admin {{trac_parent}}/$PROJECT config set tickettemplate enable_custom true
 # TracWikiGanttChartPlugin
 trac-admin {{trac_parent}}/$PROJECT config set components wikiganttchart.* enabled
 
+# PandocPlugin
+trac-admin {{trac_parent}}/$PROJECT config set components tracpandoc.* enabled
+config_append mimeviewer mime_map "application/vnd.openxmlformats-officedocument.wordprocessingml.document:docx"
+
 trac-admin {{trac_parent}}/$PROJECT upgrade

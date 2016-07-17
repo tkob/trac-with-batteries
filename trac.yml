@@ -74,6 +74,10 @@
       command: sudo pip install 'svn+https://trac-hacks.org/svn/wikiganttchartplugin/0.12' creates='/usr/lib/python2.7/site-packages/wikiganttchart'
     - name: pandoc
       script: install-pandoc.sh creates='/usr/local/bin/pandoc'
+    - name: secure_path contains /usr/local/bin
+      lineinfile: dest='/etc/sudoers' state=present regexp='^\s*#*\s*Defaults\s+secure_path\s*=' "line=Defaults    secure_path = /sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin"
+    - name: TracPandoc
+      command: sudo pip install 'svn+https://trac-hacks.org/svn/pandocplugin/1.0' creates='/usr/lib/python2.7/site-packages/tracpandoc'
 
     - file: path={{svn_parent}}        state=directory owner={{owner}} group={{group}}
     - file: path={{git_parent}}        state=directory owner={{owner}} group={{group}}
