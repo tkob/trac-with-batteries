@@ -220,11 +220,6 @@ trac-admin {{trac_parent}}/$PROJECT config set components subcomponents.* enable
 trac-admin {{trac_parent}}/$PROJECT config set components tracasciidoctor.* enabled
 config_append mimeviewer mime_map "text/asciidoc:adoc:asc:asciidoc"
 
-# TracTicketTemplatePlugin
-trac-admin {{trac_parent}}/$PROJECT config set components tickettemplate.* enabled
-trac-admin {{trac_parent}}/$PROJECT config set tickettemplate field_list "summary, description, reporter, owner, priority, cc, milestone, component, version, type"
-trac-admin {{trac_parent}}/$PROJECT config set tickettemplate enable_custom true
-
 # TracWikiGanttChartPlugin
 trac-admin {{trac_parent}}/$PROJECT config set components wikiganttchart.* enabled
 
@@ -232,4 +227,5 @@ trac-admin {{trac_parent}}/$PROJECT config set components wikiganttchart.* enabl
 trac-admin {{trac_parent}}/$PROJECT config set components tracpandoc.* enabled
 config_append mimeviewer mime_map "application/vnd.openxmlformats-officedocument.wordprocessingml.document:docx"
 
-trac-admin {{trac_parent}}/$PROJECT upgrade
+# TicketStencilPlugin
+trac-admin {{trac_parent}}/$PROJECT config set components tracticketstencil.* enabled
