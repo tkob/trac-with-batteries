@@ -98,6 +98,11 @@
     - file: path={{var_root}}/wiki/ja_JP state=directory owner={{owner}} group={{group}}
     - copy: src=wiki/ja_JP/default-pages dest={{var_root}}/wiki/ja_JP owner={{owner}} group={{group}}
 
+    # Review Board
+    - yum: name=epel-release
+    - yum: name=memcached
+    - yum: name=ReviewBoard
+
     - service: name=httpd state=started enabled=yes
  
   handlers:
