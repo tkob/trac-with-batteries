@@ -13,5 +13,3 @@ rm -rf {{svn_parent}}/$PROJECT
 rm -rf {{git_parent}}/$PROJECT
 rm -rf {{trac_parent}}/$PROJECT
 rm -rf {{httpd_conf_parent}}/$PROJECT
-rm -rf {{httpd_conf_parent}}/$PROJECT*.conf
-rm -rf {{rb_parent}}/$PROJECT
