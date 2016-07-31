@@ -229,3 +229,13 @@ config_append mimeviewer mime_map "application/vnd.openxmlformats-officedocument
 
 # TicketStencilPlugin
 trac-admin {{trac_parent}}/$PROJECT config set components tracticketstencil.* enabled
+
+# Review Board
+(cd {{rb_parent}}; rb-site install --noinput --domain-name=localhost.localdomain --site-root=/reviews-$PROJECT/ --db-type=sqlite3 --db-name={{rb_parent}}/$PROJECT/data/reviewboard.db --admin-user=admin --admin-password=admin --admin-email=root@localhost.localdomain {{rb_parent}}/$PROJECT)
+#  Let apache load the generated conf file
+ln -s {{rb_parent}}/$PROJECT/conf/apache-wsgi.conf {{httpd_conf_parent}}/$PROJECT-rb.conf
+#  Allow any hosts
+perl -i -pne 's/ALLOWED_HOSTS\s*=.*/ALLOWED_HOSTS = ["*"]/' {{rb_parent}}/$PROJECT/conf/settings_local.py
+(cd {{rb_parent}}; rb-site manage {{rb_parent}}/$PROJECT set-siteconfig -- --key auth_backend --value digest)
+(cd {{rb_parent}}; rb-site manage {{rb_parent}}/$PROJECT set-siteconfig -- --key auth_digest_file_location --value {{httpd_conf_parent}}/$PROJECT/.htdigest)
+(cd {{rb_parent}}; rb-site manage {{rb_parent}}/$PROJECT set-siteconfig -- --key auth_digest_realm --value Trac)
