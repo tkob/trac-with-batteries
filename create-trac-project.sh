@@ -229,3 +229,8 @@ config_append mimeviewer mime_map "application/vnd.openxmlformats-officedocument
 
 # TicketStencilPlugin
 trac-admin {{trac_parent}}/$PROJECT config set components tracticketstencil.* enabled
+
+# CodeReviewerPlugin
+trac-admin {{trac_parent}}/$PROJECT config set components coderev.* enabled
+trac-admin {{trac_parent}}/$PROJECT config set components tracopt.ticket.commit_updater.committicketreferencemacro disabled
+trac-admin {{trac_parent}}/$PROJECT config set components tracopt.ticket.commit_updater.committicketupdater enabled
