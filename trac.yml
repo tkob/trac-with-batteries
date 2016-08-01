@@ -93,8 +93,8 @@
       notify:   restart httpd
     - template: src=trac.conf              dest={{httpd_conf}}/trac.conf
       notify:   restart httpd
-    - template: src=create-trac-project.sh dest={{var_root}}/create-trac-project.sh owner={{owner}} group={{group}} mode=755
-    - template: src=delete-trac-project.sh dest={{var_root}}/delete-trac-project.sh owner={{owner}} group={{group}} mode=755
+    - template: src=create-trac-project.sh dest=/usr/local/bin/create-trac-project.sh owner={{owner}} group={{group}} mode=750
+    - template: src=delete-trac-project.sh dest=/usr/local/bin/delete-trac-project.sh owner={{owner}} group={{group}} mode=750
     - file: path={{var_root}}/wiki/ja_JP state=directory owner={{owner}} group={{group}}
     - copy: src=wiki/ja_JP/default-pages dest={{var_root}}/wiki/ja_JP owner={{owner}} group={{group}}
 
