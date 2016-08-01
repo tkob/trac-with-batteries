@@ -79,6 +79,21 @@
     - name: TicketStencil
       command: sudo pip install 'svn+https://trac-hacks.org/svn/ticketstencilplugin/1.0' creates='/usr/lib/python2.7/site-packages/tracticketstencil'
 
+    # Open LDAP
+    - yum: name=openldap-servers
+    - yum: name=openldap-clients
+    - service: name=slapd state=started enabled=yes
+    - copy: src=olcRootPW.ldif dest=/tmp/olcRootPW.ldif owner=root group=root mode=0600
+    - command: ldapadd -Y EXTERNAL -H ldapi:// -f /tmp/olcRootPW.ldif
+    # phpLDAPAdmin
+    - yum: name=phpldapadmin
+    - copy: src=phpldapadmin.conf dest=/etc/httpd/conf.d/phpldapadmin.conf owner=root group=root mode=0644
+      notify: restart httpd
+    # LDAPAcctMngrPlugin
+    - pip: name=python-ldap
+    - name: LDAPAcctMngrPlugin
+      command: sudo pip install 'svn+https://trac-hacks.org/svn/ldapacctmngrplugin/trunk/ldapacctmngrplugin' creates='/usr/lib/python2.7/site-packages/securuty/ldapstore'
+
     - file: path={{svn_parent}}        state=directory owner={{owner}} group={{group}}
     - file: path={{git_parent}}        state=directory owner={{owner}} group={{group}}
     - file: path={{var_root}}          state=directory owner={{owner}} group={{group}}
