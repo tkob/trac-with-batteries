@@ -79,6 +79,8 @@
       command: sudo pip install 'svn+https://trac-hacks.org/svn/pandocplugin/1.0' creates='/usr/lib/python2.7/site-packages/tracpandoc'
     - name: TicketStencil
       command: sudo pip install 'svn+https://trac-hacks.org/svn/ticketstencilplugin/1.0' creates='/usr/lib/python2.7/site-packages/tracticketstencil'
+    - name: PeerReview
+      command: sudo pip install 'svn+https://trac-hacks.org/svn/peerreviewplugin/trunk' creates='/usr/lib/python2.7/site-packages/codereview'
 
     # Open LDAP
     - yum: name=openldap-servers
