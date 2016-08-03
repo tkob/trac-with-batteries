@@ -87,6 +87,8 @@
     - command: ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/inetorgperson.ldif creates='/etc/openldap/slapd.d/cn=config/cn=schema/cn={2}inetorgperson.ldif'
     - copy: src=olcRootPW.ldif dest=/tmp/olcRootPW.ldif owner=root group=root mode=0600
     - command: ldapadd -Y EXTERNAL -H ldapi:// -f /tmp/olcRootPW.ldif
+    - copy: src=init.ldif dest=/usr/local/share/applications/init.ldif owner=root group=root
+    - copy: src=initldap.sh dest=/usr/local/sbin/initldap.sh owner=root group=root mode=0750
     # phpLDAPAdmin
     - yum: name=phpldapadmin
     - copy: src=phpldapadmin.conf dest=/etc/httpd/conf.d/phpldapadmin.conf owner=root group=root mode=0644
