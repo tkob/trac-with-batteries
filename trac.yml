@@ -83,8 +83,8 @@
     - yum: name=openldap-servers
     - yum: name=openldap-clients
     - service: name=slapd state=started enabled=yes
-    - command: ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/cosine.ldif
-    - command: ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/inetorgperson.ldif
+    - command: ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/cosine.ldif creates='/etc/openldap/slapd.d/cn=config/cn=schema/cn={1}cosine.ldif'
+    - command: ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/inetorgperson.ldif creates='/etc/openldap/slapd.d/cn=config/cn=schema/cn={2}inetorgperson.ldif'
     - copy: src=olcRootPW.ldif dest=/tmp/olcRootPW.ldif owner=root group=root mode=0600
     - command: ldapadd -Y EXTERNAL -H ldapi:// -f /tmp/olcRootPW.ldif
     # phpLDAPAdmin
