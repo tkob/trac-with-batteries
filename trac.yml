@@ -94,7 +94,7 @@
     # LDAPAcctMngrPlugin
     - pip: name=python-ldap
     - name: LDAPAcctMngrPlugin
-      command: sudo pip install 'svn+https://trac-hacks.org/svn/ldapacctmngrplugin/trunk/ldapacctmngrplugin' creates='/usr/lib/python2.7/site-packages/securuty/ldapstore'
+      command: sudo pip install 'svn+https://trac-hacks.org/svn/ldapacctmngrplugin/trunk/ldapacctmngrplugin' creates='/usr/lib/python2.7/site-packages/security/ldapstore.py'
 
     - file: path={{svn_parent}}        state=directory owner={{owner}} group={{group}}
     - file: path={{git_parent}}        state=directory owner={{owner}} group={{group}}
