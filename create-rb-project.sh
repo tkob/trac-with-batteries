@@ -7,13 +7,10 @@ die ()
 }
 
 lang=`python -c 'import locale; print(locale.getdefaultlocale()[0])'`
-repo_type=svn
 while getopts l:r: opt; do
   case $opt in #(
   l) :
     lang=$OPTARG ;; #(
-  r) :
-    repo_type=$OPTARG ;; #(
   *) :
      ;;
 esac
@@ -44,6 +41,6 @@ chown -R {{owner}}:{{group}} {{rb_parent}}/$PROJECT/data
 service httpd restart
 
 #  Setup repository
-if test "X$repo_type" = "Xsvn"; then
+if test -d {{svn_parent}}/$PROJECT; then
   curl "http://localhost/reviews-${PROJECT}/api/repositories/" -H "Accept: application/json" -H "Authorization: Basic YWRtaW46YWRtaW4=" -X POST --data-urlencode "name=$PROJECT" --data-urlencode "path=file://{{svn_parent}}/$PROJECT" --data-urlencode "tool=Subversion"
 fi
