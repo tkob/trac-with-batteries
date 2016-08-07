@@ -229,3 +229,6 @@ config_append mimeviewer mime_map "application/vnd.openxmlformats-officedocument
 
 # TicketStencilPlugin
 trac-admin {{trac_parent}}/$PROJECT config set components tracticketstencil.* enabled
+
+# LDAPAcctMngrPlugin
+trac-admin {{trac_parent}}/$PROJECT config set components security.ldapstore.* enabled
