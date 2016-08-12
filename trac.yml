@@ -14,6 +14,7 @@
     svn_parent:        "{{var_root}}/svn"
     git_parent:        "{{var_root}}/git"
     httpd_conf_parent: "{{var_root}}/httpd"
+    rb_parent:         "{{var_root}}/rb"
 
   tasks:
     - yum: name=subversion
@@ -81,6 +82,25 @@
     - name: CodeReviewer
       command: sudo pip install 'svn+https://trac-hacks.org/svn/codereviewerplugin/1.0' creates='/usr/lib/python2.7/site-packages/coderev'
 
+    # Open LDAP
+    - yum: name=openldap-servers
+    - yum: name=openldap-clients
+    - service: name=slapd state=started enabled=yes
+    - command: ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/cosine.ldif creates='/etc/openldap/slapd.d/cn=config/cn=schema/cn={1}cosine.ldif'
+    - command: ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/inetorgperson.ldif creates='/etc/openldap/slapd.d/cn=config/cn=schema/cn={2}inetorgperson.ldif'
+    - copy: src=olcRootPW.ldif dest=/usr/local/share/applications/olcRootPW.ldif owner=root group=root mode=0600
+    - copy: src=init.ldif dest=/usr/local/share/applications/init.ldif owner=root group=root
+    - copy: src=initldap.sh dest=/usr/local/sbin/initldap.sh owner=root group=root mode=0750
+    # phpLDAPAdmin
+    - yum: name=phpldapadmin
+    - copy: src=config.php dest=/etc/phpldapadmin/config.php owner=root group={{group}} mode=0640
+    - copy: src=phpldapadmin.conf dest=/etc/httpd/conf.d/phpldapadmin.conf owner=root group=root mode=0644
+      notify: restart httpd
+    # LDAPAcctMngrPlugin
+    - pip: name=python-ldap
+    - name: LDAPAcctMngrPlugin
+      command: sudo pip install 'svn+https://trac-hacks.org/svn/ldapacctmngrplugin/trunk/ldapacctmngrplugin' creates='/usr/lib/python2.7/site-packages/security/ldapstore.py'
+
     - file: path={{svn_parent}}        state=directory owner={{owner}} group={{group}}
     - file: path={{git_parent}}        state=directory owner={{owner}} group={{group}}
     - file: path={{var_root}}          state=directory owner={{owner}} group={{group}}
@@ -95,10 +115,18 @@
       notify:   restart httpd
     - template: src=trac.conf              dest={{httpd_conf}}/trac.conf
       notify:   restart httpd
-    - template: src=create-trac-project.sh dest={{var_root}}/create-trac-project.sh owner={{owner}} group={{group}} mode=755
-    - template: src=delete-trac-project.sh dest={{var_root}}/delete-trac-project.sh owner={{owner}} group={{group}} mode=755
+    - template: src=create-trac-project.sh dest=/usr/local/bin/create-trac-project.sh owner={{owner}} group={{group}} mode=750
+    - template: src=delete-trac-project.sh dest=/usr/local/bin/delete-trac-project.sh owner={{owner}} group={{group}} mode=750
     - file: path={{var_root}}/wiki/ja_JP state=directory owner={{owner}} group={{group}}
     - copy: src=wiki/ja_JP/default-pages dest={{var_root}}/wiki/ja_JP owner={{owner}} group={{group}}
+
+    # Review Board
+    - template: src=create-rb-project.sh dest=/usr/local/sbin/create-rb-project.sh owner=root group=root mode=755
+    - template: src=delete-rb-project.sh dest=/usr/local/sbin/delete-rb-project.sh owner=root group=root mode=755
+    - file: path={{rb_parent}} state=directory owner={{owner}} group={{group}}
+    - yum: name=epel-release
+    - yum: name=memcached
+    - yum: name=ReviewBoard
 
     - service: name=httpd state=started enabled=yes
  

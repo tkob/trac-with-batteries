@@ -234,3 +234,6 @@ trac-admin {{trac_parent}}/$PROJECT config set components tracticketstencil.* en
 trac-admin {{trac_parent}}/$PROJECT config set components coderev.* enabled
 trac-admin {{trac_parent}}/$PROJECT config set components tracopt.ticket.commit_updater.committicketreferencemacro disabled
 trac-admin {{trac_parent}}/$PROJECT config set components tracopt.ticket.commit_updater.committicketupdater enabled
+
+# LDAPAcctMngrPlugin
+trac-admin {{trac_parent}}/$PROJECT config set components security.ldapstore.* enabled
