@@ -149,6 +149,8 @@ if test "X$repo_type" = "Xsvn"; then
   trac-admin {{trac_parent}}/$PROJECT repository resync ""
 fi
 
+# Enable additional plugins
+
 # AccountManager
 trac-admin {{trac_parent}}/$PROJECT config set components acct_mgr.* enabled
 trac-admin {{trac_parent}}/$PROJECT config set components trac.web.auth disabled
@@ -156,25 +158,24 @@ trac-admin {{trac_parent}}/$PROJECT config set account-manager password_store Ht
 trac-admin {{trac_parent}}/$PROJECT config set account-manager htdigest_realm Trac
 trac-admin {{trac_parent}}/$PROJECT config set account-manager htdigest_file {{httpd_conf_parent}}/$PROJECT/.htdigest
 
+# AsciidoctorPlugin
+trac-admin {{trac_parent}}/$PROJECT config set components tracasciidoctor.* enabled
+config_append mimeviewer mime_map "text/asciidoc:adoc:asc:asciidoc"
+
 # AutocompleteUsersPlugin
 trac-admin {{trac_parent}}/$PROJECT config set components autocompleteusers.* enabled
-
-# XML-RPC
-trac-admin {{trac_parent}}/$PROJECT config set components tracrpc.* enabled
-trac-admin {{trac_parent}}/$PROJECT permission add authenticated XML_RPC
-
-# JupyterNotebook
-trac-admin {{trac_parent}}/$PROJECT config set components tracjupyternotebook.* enabled
-config_append mimeviewer mime_map "application/x-ipynb+json:ipynb"
 
 # BlockDiag
 trac-admin {{trac_parent}}/$PROJECT config set components tracblockdiag.plugin.* enabled
 
+# CiteCode
+trac-admin {{trac_parent}}/$PROJECT config set components traccitecode.citecode.* enabled
+
 # CustomFieldAdmin
 trac-admin {{trac_parent}}/$PROJECT config set components customfieldadmin.* enabled
 
-# Wysiwyg
-trac-admin {{trac_parent}}/$PROJECT config set components tracwysiwyg.* enabled
+# DragDropPlugin
+trac-admin {{trac_parent}}/$PROJECT config set components tracdragdrop.* enabled
 
 # ExcelDownload
 trac-admin {{trac_parent}}/$PROJECT config set components tracexceldownload.* enabled 
@@ -182,11 +183,29 @@ trac-admin {{trac_parent}}/$PROJECT config set components tracexceldownload.* en
 # ExportImportXls
 trac-admin {{trac_parent}}/$PROJECT config set components importexportxls.admin_ui.* enabled
 
-# DragDropPlugin
-trac-admin {{trac_parent}}/$PROJECT config set components tracdragdrop.* enabled
+# IniAdminPanel
+trac-admin {{trac_parent}}/$PROJECT config set components inieditorpanel.* enabled
 
-# CiteCode
-trac-admin {{trac_parent}}/$PROJECT config set components traccitecode.citecode.* enabled
+# JupyterNotebook
+trac-admin {{trac_parent}}/$PROJECT config set components tracjupyternotebook.* enabled
+config_append mimeviewer mime_map "application/x-ipynb+json:ipynb"
+
+# LDAPAcctMngrPlugin
+trac-admin {{trac_parent}}/$PROJECT config set components security.ldapstore.* enabled
+
+# LogViewer
+trac-admin {{trac_parent}}/$PROJECT config set components logviewer.* enabled
+
+# Mermaid
+trac-admin {{trac_parent}}/$PROJECT config set components tracmermaid.mermaid.* enabled
+
+# PandocPlugin
+trac-admin {{trac_parent}}/$PROJECT config set components tracpandoc.* enabled
+config_append mimeviewer mime_map "application/vnd.openxmlformats-officedocument.wordprocessingml.document:docx"
+
+# PerlPodPlugin
+trac-admin {{trac_parent}}/$PROJECT config set components tracperlpod.* enabled
+config_append mimeviewer mime_map "application/x-perlpod:pod"
 
 # ReadmeRenderer
 trac-admin {{trac_parent}}/$PROJECT config set components readme_renderer.* enabled
@@ -194,14 +213,8 @@ config_append mimeviewer mime_map "text/x-trac-wiki:wiki"
 config_append mimeviewer mime_map "text/x-markdown:md"
 config_append mimeviewer mime_map_patterns "text/plain:README:INSTALL:COPYING"
 
-# LogViewer
-trac-admin {{trac_parent}}/$PROJECT config set components logviewer.* enabled
-
-# IniAdminPanel
-trac-admin {{trac_parent}}/$PROJECT config set components inieditorpanel.* enabled
-
-# Mermaid
-trac-admin {{trac_parent}}/$PROJECT config set components tracmermaid.mermaid.* enabled
+# SubcomponentsPlugin
+trac-admin {{trac_parent}}/$PROJECT config set components subcomponents.* enabled
 
 # SvnMultiUrlsPlugin
 if test "X$repo_type" = "Xsvn"; then
@@ -209,26 +222,15 @@ if test "X$repo_type" = "Xsvn"; then
   trac-admin {{trac_parent}}/$PROJECT config set svnmultiurls repository_root_url /svn/$PROJECT
 fi
 
-# PerlPodPlugin
-trac-admin {{trac_parent}}/$PROJECT config set components tracperlpod.* enabled
-config_append mimeviewer mime_map "application/x-perlpod:pod"
-
-# SubcomponentsPlugin
-trac-admin {{trac_parent}}/$PROJECT config set components subcomponents.* enabled
-
-# AsciidoctorPlugin
-trac-admin {{trac_parent}}/$PROJECT config set components tracasciidoctor.* enabled
-config_append mimeviewer mime_map "text/asciidoc:adoc:asc:asciidoc"
-
-# TracWikiGanttChartPlugin
-trac-admin {{trac_parent}}/$PROJECT config set components wikiganttchart.* enabled
-
-# PandocPlugin
-trac-admin {{trac_parent}}/$PROJECT config set components tracpandoc.* enabled
-config_append mimeviewer mime_map "application/vnd.openxmlformats-officedocument.wordprocessingml.document:docx"
-
 # TicketStencilPlugin
 trac-admin {{trac_parent}}/$PROJECT config set components tracticketstencil.* enabled
 
-# LDAPAcctMngrPlugin
-trac-admin {{trac_parent}}/$PROJECT config set components security.ldapstore.* enabled
+# WikiGanttChartPlugin
+trac-admin {{trac_parent}}/$PROJECT config set components wikiganttchart.* enabled
+
+# Wysiwyg
+trac-admin {{trac_parent}}/$PROJECT config set components tracwysiwyg.* enabled
+
+# XML-RPC
+trac-admin {{trac_parent}}/$PROJECT config set components tracrpc.* enabled
+trac-admin {{trac_parent}}/$PROJECT permission add authenticated XML_RPC
