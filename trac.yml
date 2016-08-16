@@ -17,6 +17,7 @@
     rb_parent:         "{{var_root}}/rb"
 
   tasks:
+    - yum: name=epel-release
     - yum: name=subversion
     - yum: name=git
     - yum: name=patch
@@ -122,7 +123,6 @@
     - template: src=create-rb-project.sh dest=/usr/local/sbin/create-rb-project.sh owner=root group=root mode=755
     - template: src=delete-rb-project.sh dest=/usr/local/sbin/delete-rb-project.sh owner=root group=root mode=755
     - file: path={{rb_parent}} state=directory owner={{owner}} group={{group}}
-    - yum: name=epel-release
     - yum: name=memcached
     - yum: name=ReviewBoard
 
