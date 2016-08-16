@@ -132,6 +132,8 @@ config_append ()
   trac-admin {{trac_parent}}/$PROJECT config set $section $key "$old, $value"
 }
 
+trac-admin {{trac_parent}}/$PROJECT config set header_logo src common/trac_banner.png
+
 trac-admin {{trac_parent}}/$PROJECT config set components tracopt.ticket.commit_updater.* enabled
 trac-admin {{trac_parent}}/$PROJECT config set components tracopt.ticket.clone.* enabled
 
