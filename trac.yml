@@ -32,7 +32,7 @@
     - yum: name=zlib-devel          # required by PIL which is required by TracBlockDiag
     - yum: name=libjpeg-turbo-devel # required by PIL which is required by TracBlockDiag
     - yum: name=rubygem-asciidoctor
-    - pip: name=Babel
+    - pip: name=Babel                       version=0.9.6
     - pip: name=genshi                      version=0.6
     - pip: name=trac                        version=1.0
     - pip: name=TracBlockDiag               version=0.2.1
