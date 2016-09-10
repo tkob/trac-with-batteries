@@ -205,6 +205,10 @@ trac-admin {{trac_parent}}/$PROJECT config set components tracmermaid.mermaid.* 
 trac-admin {{trac_parent}}/$PROJECT config set components tracpandoc.* enabled
 config_append mimeviewer mime_map "application/vnd.openxmlformats-officedocument.wordprocessingml.document:docx"
 
+# PdfPreviewPlugin
+trac-admin {{trac_parent}}/$PROJECT config set components tracpdfpreview.* enabled
+config_append mimeviewer mime_map "application/pdf:pdf"
+
 # PerlPodPlugin
 trac-admin {{trac_parent}}/$PROJECT config set components tracperlpod.* enabled
 config_append mimeviewer mime_map "application/x-perlpod:pod"
