@@ -126,6 +126,15 @@
     - yum: name=memcached
     - yum: name=ReviewBoard
 
+    # TestLink
+    - yum: name=php-mysql
+    - yum: name=php
+    - yum: name=php-gd
+    - yum: name=php-mbstring
+    - yum: name=mariadb
+    - yum: name=mariadb-server
+    - service: name=mariadb state=started enabled=yes
+
     - service: name=httpd state=started enabled=yes
  
   handlers:
