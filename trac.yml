@@ -133,6 +133,9 @@
     - yum: name=php-mbstring
     - yum: name=mariadb
     - yum: name=mariadb-server
+    - lineinfile: dest='/etc/php.ini' state=present regexp='^\s*session.gc_maxlifetime\s*=\s*' "line=session.gc_maxlifetime = 2400"
+    - lineinfile: dest='/etc/php.ini' state=present regexp='^\s*max_execution_time\s*=\s*' "line=max_execution_time = 120"
+
     - service: name=mariadb state=started enabled=yes
 
     - service: name=httpd state=started enabled=yes
