@@ -131,8 +131,9 @@
     - yum: name=php enablerepo=remi-php56
     - yum: name=php-gd enablerepo=remi-php56
     - yum: name=php-mbstring enablerepo=remi-php56
-    - yum: name=mariadb
-    - yum: name=mariadb-server
+    - template: src=MariaDB.repo dest=/etc/yum.repos.d/MariaDB.repo owner=root group=root
+    - yum: name=MariaDB-server enablerepo=mariadb
+    - yum: name=MariaDB-client enablerepo=mariadb
     - lineinfile: dest='/etc/php.ini' state=present regexp='^\s*session.gc_maxlifetime\s*=\s*' "line=session.gc_maxlifetime = 2400"
     - lineinfile: dest='/etc/php.ini' state=present regexp='^\s*max_execution_time\s*=\s*' "line=max_execution_time = 120"
     - script: install-testlink.sh creates='/var/www/html/testlink'
