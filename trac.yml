@@ -93,7 +93,7 @@
     - copy: src=init.ldif dest=/usr/local/share/applications/init.ldif owner=root group=root
     - copy: src=initldap.sh dest=/usr/local/sbin/initldap.sh owner=root group=root mode=0750
     # phpLDAPAdmin
-    - yum: name=phpldapadmin
+    - yum: name=phpldapadmin enablerepo=remi-php56
     - copy: src=config.php dest=/etc/phpldapadmin/config.php owner=root group={{group}} mode=0640
     - copy: src=phpldapadmin.conf dest=/etc/httpd/conf.d/phpldapadmin.conf owner=root group=root mode=0644
       notify: restart httpd
@@ -127,6 +127,25 @@
     - file: path={{rb_parent}} state=directory owner={{owner}} group={{group}}
     - yum: name=memcached
     - yum: name=ReviewBoard
+
+    # TestLink
+    - yum: name=php-mysql enablerepo=remi-php56
+    - yum: name=php enablerepo=remi-php56
+    - yum: name=php-gd enablerepo=remi-php56
+    - yum: name=php-mbstring enablerepo=remi-php56
+    - template: src=MariaDB.repo dest=/etc/yum.repos.d/MariaDB.repo owner=root group=root
+    - yum: name=MariaDB-server enablerepo=mariadb
+    - yum: name=MariaDB-client enablerepo=mariadb
+    - lineinfile: dest='/etc/php.ini' state=present regexp='^\s*session.gc_maxlifetime\s*=\s*' "line=session.gc_maxlifetime = 2400"
+    - lineinfile: dest='/etc/php.ini' state=present regexp='^\s*max_execution_time\s*=\s*' "line=max_execution_time = 120"
+    - script: install-testlink.sh creates='/var/www/html/testlink'
+    - file: path=/var/www/html/testlink/gui/templates_c state=directory owner={{owner}} group={{group}} mode=0755 recurse=yes
+    - file: path=/var/testlink
+    - file: path=/var/testlink/logs
+    - file: path=/var/testlink/upload_area
+    - file: path=/var/testlink mode=0777
+    - file: path=/var/www/html/testlink owner={{owner}} group={{group}}
+    - service: name=mariadb state=started enabled=yes
 
     - service: name=httpd state=started enabled=yes
  
