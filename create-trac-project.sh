@@ -6,10 +6,13 @@ die ()
   exit 1
 }
 
+github=
 lang=`python -c 'import locale; print(locale.getdefaultlocale()[0])'`
 repo_type=svn
-while getopts l:r: opt; do
+while getopts g:l:r: opt; do
   case $opt in #(
+  g) :
+    github=$OPTARG ;; #(
   l) :
     lang=$OPTARG ;; #(
   r) :
@@ -19,6 +22,10 @@ while getopts l:r: opt; do
 esac
 done
 shift `expr $OPTIND - 1`
+
+if test "X$repo_type" = "Xgithub"; then
+  test -z $github && die "no github repo specified"
+fi
 
 test -z $1 && die "no project name specified"
 PROJECT=$1
@@ -56,6 +63,12 @@ if __name__ == '__main__':
         handle_ref(*line.split())
 EOF
   chmod 755 {{git_parent}}/$PROJECT/hooks/post-receive
+fi
+
+if test "X$repo_type" = "Xgithub"; then
+  mkdir -p {{git_parent}}/$PROJECT
+  (cd {{git_parent}}; git clone --mirror "https://github.com/${github}.git" $PROJECT)
+  (cd {{git_parent}}/$PROJECT; git update-server-info)
 fi
 
 if test "X$repo_type" = "Xsvn"; then
@@ -140,6 +153,20 @@ trac-admin {{trac_parent}}/$PROJECT config set components tracopt.ticket.clone.*
 # Git
 if test "X$repo_type" = "Xgit"; then
   trac-admin {{trac_parent}}/$PROJECT config set components tracopt.versioncontrol.git.* enabled
+  trac-admin {{trac_parent}}/$PROJECT repository add "" {{git_parent}}/$PROJECT git
+  trac-admin {{trac_parent}}/$PROJECT repository resync ""
+fi
+
+# GitHub
+if test "X$repo_type" = "Xgithub"; then
+  trac-admin {{trac_parent}}/$PROJECT config set components tracext.github.* enabled
+  trac-admin {{trac_parent}}/$PROJECT config set components tracopt.versioncontrol.git.* enabled
+  trac-admin {{trac_parent}}/$PROJECT config set components tracopt.ticket.commit_updater.* enabled
+  trac-admin {{trac_parent}}/$PROJECT config set components trac.versioncontrol.web_ui.browser.BrowserModule disabled
+  trac-admin {{trac_parent}}/$PROJECT config set components trac.versioncontrol.web_ui.changeset.ChangesetModule disabled
+  trac-admin {{trac_parent}}/$PROJECT config set components trac.versioncontrol.web_ui.log.LogModule disabled
+  trac-admin {{trac_parent}}/$PROJECT config set components tracext.github.GitHubBrowser enabled
+  trac-admin {{trac_parent}}/$PROJECT config set github repository $github
   trac-admin {{trac_parent}}/$PROJECT repository add "" {{git_parent}}/$PROJECT git
   trac-admin {{trac_parent}}/$PROJECT repository resync ""
 fi
